@@ -58,7 +58,7 @@ if (!class_exists(Random_Password)) {
 
         /*
          *
-         * Plugin Activation - Method
+         * Plugin Activation - This method will be executed when the plugin will be activated.
          *
          */
 
@@ -75,7 +75,7 @@ if (!class_exists(Random_Password)) {
 
         /*
          *
-         * Plugin Deactivation - Method
+         * Plugin Deactivation - This method will be executed when the plugin will be deactivated.
          *
          */
 
@@ -104,9 +104,14 @@ if (!class_exists(Random_Password)) {
          *
          */
 
-        public function rp_generate_password()
+        public function rp_generate_password( $length = 8 )
         {
 
+            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+
+            $unique_password = substr( str_shuffle( $characters ), 0, $length );
+
+            return $unique_password;
 
         }
 
@@ -139,6 +144,6 @@ if (!class_exists(Random_Password)) {
 }
 
 $rp = new Random_Password();
-$rp;
+$rp->rp_initialize();
 
 ?>
