@@ -10,8 +10,64 @@
 * License: GPL2
 */
 
+/*
+ *
+ * Intruders are not allowed.
+ *
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-<?php
+/*
+ *
+ * Plugin Core Class
+ *
+ */
+
+if ( ! class_exists( Random_Password ) ) {
+
+	class Random_Password {
+
+		public function rp_activation() {
+
+
+
+		}
+
+		public function rp_deactivation() {
+
+
+
+		}
+
+		public function rp_schedule_password() {
+
+
+
+		}
+
+		public function rp_generate_password() {
+
+
+
+		}
+
+		public function rp_notify_users() {
+
+
+
+		}
+
+		public function rp_change_passwords() {
+
+
+
+		}
+
+	}
+
+}
+
+?>
