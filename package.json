@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/usmanaliqureshi/randomize-password#readme",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-uglify": "^2.1.2",
+    "gulp-uglifycss": "^1.0.8",
+    "gulp-zip": "^4.0.0"
   }
 }
