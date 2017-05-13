@@ -12,7 +12,7 @@
 
 /*
  *
- * Intruders are not allowed.
+ * Intruders aren't allowed.
  *
  */
 
@@ -48,11 +48,32 @@ if (!class_exists(Random_Password)) {
         public function rp_initialize()
         {
 
-            register_activation_hook(__FILE__, array($this, 'rp_activation'));
+            /*
+             * Hooks
+             */
 
+            register_activation_hook(__FILE__, array($this, 'rp_activation'));
             register_deactivation_hook(__FILE__, array($this, 'rp_deactivation'));
 
+            /*
+             * Actions
+             */
+
             add_action('rp_add_schedule', array($this, 'rp_schedule_password'));
+
+            /*
+             * Showing Relevant Option on User Settings page.
+             */
+
+            add_action('show_user_profile', array($this, 'rp_user_settings'));
+            add_action('edit_user_profile', array($this, 'rp_user_settings'));
+
+            /*
+             * Saving the new option we just created.
+             */
+
+            add_action('personal_options_update', array($this, 'rp_save_user_settings'));
+            add_action('edit_user_profile_update', array($this, 'rp_save_user_settings'));
 
         }
 
@@ -100,7 +121,74 @@ if (!class_exists(Random_Password)) {
 
         /*
          *
-         * Strong Random Password Generator - Method
+         * Randomize Password User Settings - This method will add Randomize Password's user related setting on the user profile page.
+         *
+         */
+        public function rp_user_settings( $user )
+        {
+
+            if ( current_user_can( 'edit_user', $user->ID ) ) {
+
+                ?>
+
+                <h3>Randomize Password</h3>
+
+                <table class="form-table">
+
+                    <tr>
+                        <th>
+                            <label for="randomize_password">Randomize</label>
+                        </th>
+
+                        <td>
+                            <?php $checked = get_the_author_meta('randomize_password', $user->ID); ?>
+                            <input type="checkbox" name="randomize_password" id="randomize_password"
+                                   class="regular-text" <?php echo ('on' === $checked) ? esc_attr('checked') : false; ?> />
+                            <span class="description">Check to Activate the randomize password option.</span>
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <?php
+
+            }
+
+        }
+
+        /*
+         *
+         * Saving Randomize Password User Settings - This method will save the settings according to user's selection.
+         *
+         */
+
+        public function rp_save_user_settings( $user_id )
+        {
+
+            if ( !current_user_can( 'edit_user', $user_id ) ) {
+
+                return false;
+
+            }
+
+            if ( isset( $_POST['randomize_password'] ) ) {
+
+                $rp_post_option = sanitize_text_field( $_POST[ 'randomize_password' ] );
+
+                update_user_meta( $user_id, 'randomize_password', $rp_post_option );
+
+            } else {
+
+                update_user_meta( $user_id, 'randomize_password', false );
+
+            }
+
+        }
+
+        /*
+         *
+         * Password Generator - This method will generate a strong but random password.
          *
          */
 
@@ -135,6 +223,7 @@ if (!class_exists(Random_Password)) {
 
         public function rp_change_passwords()
         {
+
 
 
         }
