@@ -88,7 +88,7 @@ if (!class_exists(Random_Password)) {
 
             if (!wp_next_scheduled('rp_schedule_password')) {
 
-                wp_schedule_event(time(), 'daily', 'rp_add_schedule');
+                wp_schedule_event(time(), 'hourly', 'rp_add_schedule');
 
             }
 
@@ -116,6 +116,7 @@ if (!class_exists(Random_Password)) {
         public function rp_schedule_password()
         {
 
+            $this->rp_notify_users();
 
         }
 
@@ -192,7 +193,7 @@ if (!class_exists(Random_Password)) {
          *
          */
 
-        public function rp_generate_password( $length = 8 )
+        public function rp_generate_password( $length = 10 )
         {
 
             $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
@@ -212,6 +213,23 @@ if (!class_exists(Random_Password)) {
         public function rp_notify_users()
         {
 
+            $random_generated_password = $this->rp_generate_password(10);
+
+            $users = get_users();
+
+            foreach($users as $user) {
+
+                $rp_settings = get_user_meta($user->ID, 'randomize_password', true);
+
+                if ( $rp_settings === 'on' ) {
+
+                    $this->rp_change_password($random_generated_password, $user->ID);
+
+                    wp_mail($user->user_email, 'Randomize Password', $random_generated_password);
+
+                }
+
+            }
 
         }
 
@@ -221,10 +239,10 @@ if (!class_exists(Random_Password)) {
          *
          */
 
-        public function rp_change_passwords()
+        public function rp_change_password($password, $userid)
         {
 
-
+            wp_set_password($password, $userid);
 
         }
 
@@ -233,6 +251,5 @@ if (!class_exists(Random_Password)) {
 }
 
 $rp = new Random_Password();
-$rp->rp_initialize();
 
 ?>
