@@ -63,9 +63,9 @@ if (!class_exists(Random_Password)) {
             /*
              * Filters
              */
-			 
-			add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
-			
+
+            add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
+
             /*
              * Actions
              */
@@ -108,8 +108,8 @@ if (!class_exists(Random_Password)) {
 
         public function rp_activation()
         {
-			
-			$this->options = get_option('rp_options');
+
+            $this->options = get_option('rp_options');
 
             if (!wp_next_scheduled('rp_schedule_password')) {
 
@@ -131,35 +131,36 @@ if (!class_exists(Random_Password)) {
             wp_clear_scheduled_hook('rp_add_schedule');
 
         }
-		
+
         /*
          *
          * Adding custom time intervals - This method will add new time intervals like weekly and monthly which
          * are not present in WordPress cron intervals by default.
          *
          */
-		
-		public function rp_add_custom_intervals($schedules) {
 
-			$schedules['weekly'] = array(
-			
-				'interval' => 604800,
-				
-				'display' => __('Once Weekly')
-				
-			);
-			
-			$schedules['monthly'] = array(
-			
-				'interval' => 2635200,
-				
-				'display' => __('Once a month')
-				
-			);
-			
-			return $schedules;
-			
-		}
+        public function rp_add_custom_intervals($schedules)
+        {
+
+            $schedules['weekly'] = array(
+
+                'interval' => 604800,
+
+                'display' => __('Once Weekly')
+
+            );
+
+            $schedules['monthly'] = array(
+
+                'interval' => 2635200,
+
+                'display' => __('Once a month')
+
+            );
+
+            return $schedules;
+
+        }
 
         /*
          *
@@ -266,7 +267,7 @@ if (!class_exists(Random_Password)) {
 
         public function rp_notify_users()
         {
-			
+
 			$this->options = get_option('rp_options');
 
             $random_generated_password = $this->rp_generate_password($this->options['length_password']);
@@ -518,27 +519,27 @@ if (!class_exists(Random_Password)) {
             <?php
 
         }
-		
+
         /*
          *
          * Updating the schedule according to the new interval selected by the user
          *
          */
-		
+
 		public function rp_update_schedule($old_value, $new_value) {
-	
+
 			$existing_interval = $old_value['time_interval'];
-			
+
 			$updated_interval = $new_value['time_interval'];
 
 			if ($existing_interval != $updated_interval) {
-			
+
 				wp_clear_scheduled_hook('rp_add_schedule');
 
 				wp_schedule_event(time(), $updated_interval, 'rp_add_schedule');
-			
+
 			}
-			
+
 		}
 
     }
