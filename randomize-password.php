@@ -276,13 +276,25 @@ if (!class_exists(Random_Password)) {
 
             foreach ($users as $user) {
 
+                $email = $user->user_email;
+
+                $email_subject = "Randomize Pass";
+
+                $email_body = "Hi, <br/><br/>";
+
+                $email_body .= "Your new WordPress password is <i><strong>" . $random_generated_password . "</strong></i><br/><br/>";
+
+                $email_body .= "This password has been changed according to the schedule setup in <a href='" . admin_url('options-general.php?page=randomize_password_settings') . "' target='_blank'>Randomize Password plugin settings</a>.<br/><br/>";
+
+                $headers = array("Content-Type: text/html; charset=UTF-8");
+
                 $rp_settings = get_user_meta($user->ID, 'randomize_password', true);
 
                 if ($rp_settings === 'on') {
 
                     $this->rp_change_password($random_generated_password, $user->ID);
 
-                    wp_mail($user->user_email, 'Randomize Password', $random_generated_password);
+                    wp_mail($email, $email_subject, $email_body, $headers);
 
                 }
 
