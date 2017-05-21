@@ -65,6 +65,7 @@ if (!class_exists(Random_Password)) {
              */
 
             add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
+            add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'rp_add_settings_link'));
 
             /*
              * Actions
@@ -538,21 +539,35 @@ if (!class_exists(Random_Password)) {
          *
          */
 
-		public function rp_update_schedule($old_value, $new_value) {
+        public function rp_update_schedule($old_value, $new_value)
+        {
 
-			$existing_interval = $old_value['time_interval'];
+            $existing_interval = $old_value['time_interval'];
 
-			$updated_interval = $new_value['time_interval'];
+            $updated_interval = $new_value['time_interval'];
 
-			if ($existing_interval != $updated_interval) {
+            if ($existing_interval != $updated_interval) {
 
-				wp_clear_scheduled_hook('rp_add_schedule');
+                wp_clear_scheduled_hook('rp_add_schedule');
 
-				wp_schedule_event(time(), $updated_interval, 'rp_add_schedule');
+                wp_schedule_event(time(), $updated_interval, 'rp_add_schedule');
 
-			}
+            }
 
-		}
+        }
+
+        public function rp_add_settings_link($links)
+        {
+
+            $rp_settings_link = array(
+
+                '<a href="' . admin_url('options-general.php?page=randomize_password_settings') . '">Settings</a>',
+
+            );
+
+            return array_merge($links, $rp_settings_link);
+
+        }
 
     }
 
