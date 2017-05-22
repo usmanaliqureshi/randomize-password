@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
  *
  */
 
-if (!class_exists(Random_Password)) {
+if (!class_exists("Random_Password")) {
 
     class Random_Password
     {
@@ -96,7 +96,7 @@ if (!class_exists(Random_Password)) {
             if (is_admin()) {
                 add_action('admin_menu', array($this, 'rp_plugin_page'));
                 add_action('admin_init', array($this, 'rp_settings_page_init'));
-                add_action('update_option_rp_options', array( $this, 'rp_update_schedule'), 10, 2);
+                add_action('update_option_rp_options', array($this, 'rp_update_schedule'), 10, 2);
             }
 
         }
@@ -269,7 +269,7 @@ if (!class_exists(Random_Password)) {
         public function rp_notify_users()
         {
 
-			$this->options = get_option('rp_options');
+            $this->options = get_option('rp_options');
 
             $random_generated_password = $this->rp_generate_password($this->options['length_password']);
 
@@ -460,25 +460,29 @@ if (!class_exists(Random_Password)) {
 
             <select id="time_interval" name="rp_options[time_interval]">
 
-                <option value="hourly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'hourly', false)) : (''); ?>>
+                <option
+                    value="hourly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'hourly', false)) : (''); ?>>
 
                     <?php echo 'Hourly'; ?>
 
                 </option>
 
-                <option value="daily" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'daily', false)) : (''); ?>>
+                <option
+                    value="daily" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'daily', false)) : (''); ?>>
 
                     <?php echo 'Daily'; ?>
 
                 </option>
 
-                <option value="weekly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'weekly', false)) : (''); ?>>
+                <option
+                    value="weekly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'weekly', false)) : (''); ?>>
 
                     <?php echo 'Weekly'; ?>
 
                 </option>
 
-                <option value="monthly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'monthly', false)) : (''); ?>>
+                <option
+                    value="monthly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'monthly', false)) : (''); ?>>
 
                     <?php echo 'Monthly'; ?>
 
@@ -486,7 +490,8 @@ if (!class_exists(Random_Password)) {
 
             </select>
 
-            <p class="rp-description">Choose how often you want to reset your password. If you choose<strong>Weekly</strong> then your password will be reset and sent after every 7 days.</p>
+            <p class="rp-description">Choose how often you want to reset your password. If you
+                choose<strong>Weekly</strong> then your password will be reset and sent after every 7 days.</p>
 
             <?php
 
@@ -507,19 +512,22 @@ if (!class_exists(Random_Password)) {
 
             <select id="length_password" name="rp_options[length_password]">
 
-                <option value="8" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '8', false)) : (''); ?>>
+                <option
+                    value="8" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '8', false)) : (''); ?>>
 
                     <?php echo '8 Characters'; ?>
 
                 </option>
 
-                <option value="10" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '10', false)) : (''); ?>>
+                <option
+                    value="10" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '10', false)) : (''); ?>>
 
                     <?php echo '10 Characters'; ?>
 
                 </option>
 
-                <option value="12" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '12', false)) : (''); ?>>
+                <option
+                    value="12" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '12', false)) : (''); ?>>
 
                     <?php echo '12 Characters'; ?>
 
@@ -527,7 +535,8 @@ if (!class_exists(Random_Password)) {
 
             </select>
 
-            <p class="rp-description">Select the length of your password. For Example, if you choose <strong>10 Characters</strong> then your password will be 10 characters long.</p>
+            <p class="rp-description">Select the length of your password. For Example, if you choose <strong>10
+                    Characters</strong> then your password will be 10 characters long.</p>
 
             <?php
 
