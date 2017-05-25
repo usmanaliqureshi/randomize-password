@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Randomize Password
- * Description: A good plugin to schedule your new password after a set of days.
+ * Description: A good plugin to change the password for users depending on the settings (only set by admins) of the plugin. It will add a new option on the profile page to activate the password change schedule.
  * Plugin URI: https://github.com/usmanaliqureshi/randomize-password
  * Author: Usman Ali Qureshi
  * Author URI: https://www.usmanaliqureshi.com
@@ -24,17 +24,32 @@ if (!defined('ABSPATH')) {
  *
  * Plugin Core Class
  *
+ * @Class
+ *
  */
 
-if (!class_exists("Random_Password")) {
+if (!class_exists("Randomize_Password")) {
 
-    class Random_Password
+    class Randomize_Password
     {
 
-        /**
+        /*
+         *
          * Holds the values to be used throughout the plugin
+         *
+         * @Property
+         *
          */
+
         private $options;
+
+        /*
+         *
+         * You know what this method is don't you :o ?
+         *
+         * @Method
+         *
+         */
 
         public function __construct()
         {
@@ -46,7 +61,9 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Initialization - Method
+         * Initialization
+         *
+         * @Method
          *
          */
 
@@ -71,7 +88,7 @@ if (!class_exists("Random_Password")) {
              * Actions
              */
 
-            add_action('rp_add_schedule', array($this, 'rp_schedule_password'));
+            add_action('rp_wp_schedule', array($this, 'rp_schedule_password'));
 
             /*
              * Showing Relevant Option on User Settings page.
@@ -105,6 +122,8 @@ if (!class_exists("Random_Password")) {
          *
          * Plugin Activation - This method will be executed when the plugin will be activated.
          *
+         * @Method
+         *
          */
 
         public function rp_activation()
@@ -118,7 +137,7 @@ if (!class_exists("Random_Password")) {
 
             if (!wp_next_scheduled('rp_schedule_password')) {
 
-                wp_schedule_event(time(), $time_interval, 'rp_add_schedule');
+                wp_schedule_event(time(), $time_interval, 'rp_wp_schedule');
 
             }
 
@@ -142,12 +161,14 @@ if (!class_exists("Random_Password")) {
          *
          * Plugin Deactivation - This method will be executed when the plugin will be deactivated.
          *
+         * @Method
+         *
          */
 
         public function rp_deactivation()
         {
 
-            wp_clear_scheduled_hook('rp_add_schedule');
+            wp_clear_scheduled_hook('rp_wp_schedule');
 
         }
 
@@ -155,6 +176,8 @@ if (!class_exists("Random_Password")) {
          *
          * Adding custom time intervals - This method will add new time intervals like weekly and monthly which
          * are not present in WordPress cron intervals by default.
+         *
+         * @Method
          *
          */
 
@@ -169,11 +192,27 @@ if (!class_exists("Random_Password")) {
 
             );
 
+            $schedules['fortnightly'] = array(
+
+                'interval' => 1209600,
+
+                'display' => __('Once Fortnightly')
+
+            );
+
             $schedules['monthly'] = array(
 
-                'interval' => 2635200,
+                'interval' => 2592000,
 
                 'display' => __('Once a month')
+
+            );
+
+            $schedules['quaterly'] = array(
+
+                'interval' => 7776000,
+
+                'display' => __('Once Quaterly')
 
             );
 
@@ -183,20 +222,24 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Scheduling Method
+         * Scheduling - This method will be added to the cron schedule hook
+         *
+         * @Method
          *
          */
 
         public function rp_schedule_password()
         {
 
-            $this->rp_notify_users();
+            $this->rp_execute();
 
         }
 
         /*
          *
          * Randomize Password User Settings - This method will add Randomize Password's user related setting on the user profile page.
+         *
+         * @Method
          *
          */
         public function rp_user_settings($user)
@@ -235,6 +278,8 @@ if (!class_exists("Random_Password")) {
         /*
          *
          * Saving Randomize Password User Settings - This method will save the settings according to user's selection.
+         *
+         * @Method
          *
          */
 
@@ -280,30 +325,32 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Notification to the User with new generated password - Method
+         * Notification to the User with new generated password
+         *
+         * @Method
          *
          */
 
-        public function rp_notify_users()
+        public function rp_execute()
         {
 
             $this->options = get_option('rp_options');
-
-            $random_generated_password = $this->rp_generate_password($this->options['length_password']);
 
             $users = get_users();
 
             foreach ($users as $user) {
 
+                $random_generated_password = $this->rp_generate_password($this->options['length_password']);
+
                 $email = $user->user_email;
 
                 $email_subject = "Randomize Pass";
 
-                $email_body = "Hi, <br/><br/>";
+                $email_body = "Hi " . $user->display_name . ",<br/><br/>";
 
                 $email_body .= "Your new WordPress password is <i><strong>" . $random_generated_password . "</strong></i><br/><br/>";
 
-                $email_body .= "This password has been changed according to the schedule setup in <a href='" . admin_url('options-general.php?page=randomize_password_settings') . "' target='_blank'>Randomize Password plugin settings</a>.<br/><br/>";
+                $email_body .= "This password has been changed according to the schedule setup in <a href='" . admin_url('options-general.php?page=randomize_password_settings') . "' target='_blank'>Randomize Password settings</a>.<br/><br/>";
 
                 $headers = array("Content-Type: text/html; charset=UTF-8");
 
@@ -323,7 +370,9 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Update the user's password in WordPress - Method
+         * Update the user's password in WordPress
+         *
+         * @Method
          *
          */
 
@@ -361,7 +410,9 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Render the form with the options - Method
+         * Render the form with the options
+         *
+         * @Method
          *
          */
 
@@ -394,7 +445,9 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Register and add settings for Randomize Password options - Method
+         * Register and add settings for Randomize Password options
+         *
+         * @Method
          *
          */
 
@@ -452,7 +505,7 @@ if (!class_exists("Random_Password")) {
 
         /*
          *
-         * Print the Section text
+         * Display section information - Method
          *
          */
 
@@ -466,6 +519,8 @@ if (!class_exists("Random_Password")) {
         /*
          *
          * Get the settings option array and display the drop-down options accordingly
+         *
+         * @Method
          *
          */
 
@@ -500,16 +555,30 @@ if (!class_exists("Random_Password")) {
                 </option>
 
                 <option
+                    value="fortnightly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'fortnightly', false)) : (''); ?>>
+
+                    <?php echo 'Fortnightly'; ?>
+
+                </option>
+
+                <option
                     value="monthly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'monthly', false)) : (''); ?>>
 
                     <?php echo 'Monthly'; ?>
 
                 </option>
 
+                <option
+                    value="quaterly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'quaterly', false)) : (''); ?>>
+
+                    <?php echo 'Quaterly'; ?>
+
+                </option>
+
             </select>
 
             <p class="rp-description">Choose how often you want to reset your password. If you
-                choose<strong>Weekly</strong> then your password will be reset and sent after every 7 days.</p>
+                choose <strong>Weekly</strong> then your password will be reset and sent after every 7 days.</p>
 
             <?php
 
@@ -518,6 +587,8 @@ if (!class_exists("Random_Password")) {
         /*
          *
          * Get the settings option array and display the drop-down options accordingly
+         *
+         * @Method
          *
          */
 
@@ -564,6 +635,8 @@ if (!class_exists("Random_Password")) {
          *
          * Updating the schedule according to the new interval selected by the user
          *
+         * @Method
+         *
          */
 
         public function rp_update_schedule($old_value, $new_value)
@@ -575,13 +648,21 @@ if (!class_exists("Random_Password")) {
 
             if ($existing_interval != $updated_interval) {
 
-                wp_clear_scheduled_hook('rp_add_schedule');
+                wp_clear_scheduled_hook('rp_wp_schedule');
 
-                wp_schedule_event(time(), $updated_interval, 'rp_add_schedule');
+                wp_schedule_event(time(), $updated_interval, 'rp_wp_schedule');
 
             }
 
         }
+
+        /*
+         *
+         * Adding Settings link to the plugin page.
+         *
+         * @Method
+         *
+         */
 
         public function rp_add_settings_link($links)
         {
@@ -600,6 +681,6 @@ if (!class_exists("Random_Password")) {
 
 }
 
-$rp = new Random_Password();
+$rp = new Randomize_Password();
 
 ?>
