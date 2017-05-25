@@ -112,9 +112,27 @@ if (!class_exists("Random_Password")) {
 
             $this->options = get_option('rp_options');
 
+            $time_interval = ($this->options['time_interval'] ? $this->options['time_interval'] : 'weekly');
+
+            $password_length = ($this->options['length_password'] ? $this->options['length_password'] : '8');
+
             if (!wp_next_scheduled('rp_schedule_password')) {
 
-                wp_schedule_event(time(), $this->options['time_interval'], 'rp_add_schedule');
+                wp_schedule_event(time(), $time_interval, 'rp_add_schedule');
+
+            }
+
+            if (!isset($this->options['time_interval'])) {
+
+                $defaults = array(
+
+                    'time_interval' => $time_interval,
+
+                    'length_password' => $password_length
+
+                );
+
+                update_option('rp_options', $defaults);
 
             }
 
