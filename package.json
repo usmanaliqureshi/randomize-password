@@ -1,7 +1,7 @@
 {
   "name": "randomize-password",
   "version": "1.0.0",
-  "description": "A good plugin to schedule your new password after a set of days.",
+  "description": "This plugin will help you to change the password for users depending on the schedule in settings (only set by administrators) of the plugin. It will add a new option on the profile page of each user to activate the schedule to randomly change their password.",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,8 +25,16 @@
   "homepage": "https://github.com/usmanaliqureshi/randomize-password#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-uglify": "^2.1.2",
-    "gulp-uglifycss": "^1.0.8",
+    "gulp-notify": "^3.0.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-wp-pot": "^2.0.4",
+    "gulp-zip": "^4.0.0"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-notify": "^3.0.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-wp-pot": "^2.0.4",
     "gulp-zip": "^4.0.0"
   }
 }

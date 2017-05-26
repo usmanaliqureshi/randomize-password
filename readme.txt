@@ -1,6 +1,6 @@
 === Randomize Password ===
 Contributors: usmanaliqureshi
-Tags: security, password, random, wordpress, generate password, random password, generator, users, security
+Tags: security, password, random, wordpress, generate password, random password
 Requires at least: 3.0
 Tested up to: 4.7.5
 Stable tag: 4.7.5
