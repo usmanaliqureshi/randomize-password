@@ -297,9 +297,19 @@ if (!class_exists("Randomize_Password")) {
 
             if (isset($_POST['randomize_password'])) {
 
-                $rp_post_option = $_POST['randomize_password'];
+                $rp_valid_value = "on";
 
-                update_user_meta($user_id, 'randomize_password', $rp_post_option);
+                $rp_user_value = sanitize_text_field($_POST['randomize_password']);
+
+                if ($rp_user_value != $rp_valid_value) {
+
+                    wp_die('Invalid selection, please go back and try again.');
+
+                } else {
+
+                    update_user_meta($user_id, 'randomize_password', $rp_user_value);
+
+                }
 
             } else {
 
