@@ -311,23 +311,6 @@ if (!class_exists("Randomize_Password")) {
 
         /**
          *
-         * Password Generator - This method will generate a strong but random password.
-         *
-         */
-
-        public function rp_generate_password($length = 10)
-        {
-
-            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
-
-            $unique_password = substr(str_shuffle($characters), 0, $length);
-
-            return $unique_password;
-
-        }
-
-        /**
-         *
          * Notification to the User with new generated password
          *
          * @Method
@@ -341,9 +324,11 @@ if (!class_exists("Randomize_Password")) {
 
             $users = get_users();
 
+            $password_length = intval($this->options['length_password']);
+
             foreach ($users as $user) {
 
-                $random_generated_password = $this->rp_generate_password($this->options['length_password']);
+                $random_generated_password = wp_generate_password($password_length, true, true);
 
                 $email = $user->user_email;
 
@@ -609,21 +594,21 @@ if (!class_exists("Randomize_Password")) {
             <select id="length_password" name="rp_options[length_password]">
 
                 <option
-                    value="8" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '8', false)) : (''); ?>>
+                    value="8" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 8, false)) : (''); ?>>
 
                     <?php esc_html_e('8 Characters', 'rp'); ?>
 
                 </option>
 
                 <option
-                    value="10" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '10', false)) : (''); ?>>
+                    value="10" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 10, false)) : (''); ?>>
 
                     <?php esc_html_e('10 Characters', 'rp'); ?>
 
                 </option>
 
                 <option
-                    value="12" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], '12', false)) : (''); ?>>
+                    value="12" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 12, false)) : (''); ?>>
 
                     <?php esc_html_e('12 Characters', 'rp'); ?>
 
