@@ -170,8 +170,6 @@ if (!class_exists("Randomize_Password")) {
         public function rp_deactivation()
         {
 
-            delete_option('rp_options');
-
             wp_clear_scheduled_hook('rp_wp_schedule');
 
         }
@@ -691,7 +689,9 @@ if (!class_exists("Randomize_Password")) {
 
                 );
 
-                if (in_array($rp_input['length_password'], $rp_password_valid_length)) {
+                $rp_intval_password = intval($rp_input['length_password']);
+
+                if (in_array($rp_intval_password, $rp_password_valid_length)) {
 
                     $rp_new_input['length_password'] = sanitize_text_field($rp_input['length_password']);
 
