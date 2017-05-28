@@ -170,6 +170,8 @@ if (!class_exists("Randomize_Password")) {
         public function rp_deactivation()
         {
 
+            delete_option('rp_options');
+
             wp_clear_scheduled_hook('rp_wp_schedule');
 
         }
@@ -456,7 +458,9 @@ if (!class_exists("Randomize_Password")) {
 
                 'rp_option_group',
 
-                'rp_options'
+                'rp_options',
+
+                array($this, 'rp_sanitize_and_validate')
 
             );
 
@@ -630,6 +634,76 @@ if (!class_exists("Randomize_Password")) {
                     Characters</strong> then your password will be 10 characters long.', 'rp'); ?></p>
 
             <?php
+
+        }
+
+        /**
+         *
+         * Sanitizing and validating the options selected/submitted by the user
+         *
+         * @Method
+         *
+         */
+
+        public function rp_sanitize_and_validate($rp_input) {
+
+            $rp_new_input = array();
+
+            if (isset($rp_input['time_interval'])) {
+
+                $rp_time_valid_values = array(
+
+                    'hourly',
+
+                    'daily',
+
+                    'weekly',
+
+                    'fortnightly',
+
+                    'monthly',
+
+                    'quaterly'
+
+                );
+
+                if (in_array($rp_input['time_interval'], $rp_time_valid_values)) {
+
+                    $rp_new_input['time_interval'] = sanitize_text_field($rp_input['time_interval']);
+
+                } else {
+
+                    wp_die("Invalid selection for Time Interval, please go back and try again.");
+
+                }
+
+            }
+
+            if (isset($rp_input['length_password'])) {
+
+                $rp_password_valid_length = array(
+
+                    8,
+
+                    10,
+
+                    12
+
+                );
+
+                if (in_array($rp_input['length_password'], $rp_password_valid_length)) {
+
+                    $rp_new_input['length_password'] = sanitize_text_field($rp_input['length_password']);
+
+                } else {
+
+                    wp_die('Invalid selection for Password Length, kindly go back and try again.');
+
+                }
+
+                return $rp_new_input;
+
+            }
 
         }
 
