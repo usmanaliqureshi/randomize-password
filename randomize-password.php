@@ -77,6 +77,7 @@ if (!class_exists("Randomize_Password")) {
              */
 
             register_activation_hook(__FILE__, array($this, 'rp_activation'));
+
             register_deactivation_hook(__FILE__, array($this, 'rp_deactivation'));
 
             /**
@@ -84,6 +85,7 @@ if (!class_exists("Randomize_Password")) {
              */
 
             add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
+
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'rp_add_settings_link'));
 
             /**
@@ -97,6 +99,7 @@ if (!class_exists("Randomize_Password")) {
              */
 
             add_action('show_user_profile', array($this, 'rp_user_settings'));
+
             add_action('edit_user_profile', array($this, 'rp_user_settings'));
 
             /**
@@ -104,6 +107,7 @@ if (!class_exists("Randomize_Password")) {
              */
 
             add_action('personal_options_update', array($this, 'rp_save_user_settings'));
+
             add_action('edit_user_profile_update', array($this, 'rp_save_user_settings'));
 
             /**
@@ -113,9 +117,13 @@ if (!class_exists("Randomize_Password")) {
              */
 
             if (is_admin()) {
+
                 add_action('admin_menu', array($this, 'rp_plugin_page'));
+
                 add_action('admin_init', array($this, 'rp_settings_page_init'));
+
                 add_action('update_option_rp_options', array($this, 'rp_update_schedule'), 10, 2);
+
             }
 
         }
