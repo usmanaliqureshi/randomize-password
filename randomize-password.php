@@ -13,46 +13,34 @@
  */
 
 /**
- *
  * Intruders aren't allowed.
- *
  */
-
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
- *
  * Plugin Core Class
  *
- * @Class
- *
+ * @class
  */
-
 if (!class_exists("Randomize_Password")) {
 
     class Randomize_Password
     {
 
         /**
-         *
          * Holds the values to be used throughout the plugin
-         *
-         * @Property
-         *
+         * 
+         * @property [private]
          */
-
         private $options;
 
         /**
-         *
          * You know what this method is don't you :o ?
          *
-         * @Method
-         *
+         * __construct()
          */
-
         public function __construct()
         {
 
@@ -62,20 +50,16 @@ if (!class_exists("Randomize_Password")) {
 
 
         /**
-         *
          * Initialization
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_initialize()
         {
 
             /**
              * Hooks
              */
-
             register_activation_hook(__FILE__, array($this, 'rp_activation'));
 
             register_deactivation_hook(__FILE__, array($this, 'rp_deactivation'));
@@ -83,7 +67,6 @@ if (!class_exists("Randomize_Password")) {
             /**
              * Filters
              */
-
             add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
 
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'rp_add_settings_link'));
@@ -91,13 +74,11 @@ if (!class_exists("Randomize_Password")) {
             /**
              * Actions
              */
-
             add_action('rp_wp_schedule', array($this, 'rp_schedule_password'));
 
             /**
              * Showing Relevant Option on User Settings page.
              */
-
             add_action('show_user_profile', array($this, 'rp_user_settings'));
 
             add_action('edit_user_profile', array($this, 'rp_user_settings'));
@@ -105,7 +86,6 @@ if (!class_exists("Randomize_Password")) {
             /**
              * Saving the new option we just created.
              */
-
             add_action('personal_options_update', array($this, 'rp_save_user_settings'));
 
             add_action('edit_user_profile_update', array($this, 'rp_save_user_settings'));
@@ -115,7 +95,6 @@ if (!class_exists("Randomize_Password")) {
              * Adding the page into the Settings' Menu
              *
              */
-
             if (is_admin()) {
 
                 add_action('admin_menu', array($this, 'rp_plugin_page'));
@@ -129,13 +108,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Plugin Activation - This method will be executed when the plugin will be activated.
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_activation()
         {
 
@@ -168,13 +144,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Plugin Deactivation - This method will be executed when the plugin will be deactivated.
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_deactivation()
         {
 
@@ -182,15 +155,14 @@ if (!class_exists("Randomize_Password")) {
 
         }
 
+
         /**
-         *
          * Adding custom time intervals - This method will add new time intervals like weekly and monthly which
          * are not present in WordPress cron intervals by default.
-         *
-         * @Method
-         *
+         * 
+         * @param  $schedules
+         * @return $schedules
          */
-
         public function rp_add_custom_intervals($schedules)
         {
 
@@ -231,13 +203,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Scheduling - This method will be added to the cron schedule hook
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_schedule_password()
         {
 
@@ -246,13 +215,11 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Randomize Password User Settings - This method will add Randomize Password's user related setting on the user profile page.
-         *
-         * @Method
-         *
+         * 
+         * @param  $user
+         * @return [form]
          */
-
         public function rp_user_settings($user)
         {
 
@@ -287,13 +254,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Saving Randomize Password User Settings - This method will save the settings according to user's selection.
-         *
-         * @Method
-         *
+         * 
+         * @param  [user_id]
          */
-
         public function rp_save_user_settings($user_id)
         {
 
@@ -328,13 +292,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Notification to the User with new generated password
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_execute()
         {
 
@@ -375,13 +336,11 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Update the user's password in WordPress
          *
-         * @Method
-         *
+         * @param  [password]
+         * @param  [userid]
          */
-
         public function rp_change_password($password, $userid)
         {
 
@@ -390,11 +349,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
+         * Adding an options page
          *
-         * Adding an options page - Method
-         *
+         * @method
          */
-
         public function rp_plugin_page()
         {
 
@@ -415,13 +373,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Render the form with the options
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_settings_page()
         {
 
@@ -450,13 +405,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Register and add settings for Randomize Password options
          *
-         * @Method
-         *
+         * @method
          */
-
         public function rp_settings_page_init()
         {
 
@@ -512,11 +464,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
-         * Display section information - Method
-         *
+         * Display section information
+         * 
+         * @return [html]
          */
-
         public function rp_section_information()
         {
 
@@ -529,13 +480,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Get the settings option array and display the drop-down options accordingly
-         *
-         * @Method
-         *
+         * 
+         * @return [html]
          */
-
         public function select_time_interval()
         {
 
@@ -597,13 +545,10 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Get the settings option array and display the drop-down options accordingly
-         *
-         * @Method
-         *
+         * 
+         * @return [html]
          */
-
         public function select_password_length()
         {
 
@@ -644,13 +589,12 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Sanitizing and validating the options selected/submitted by the user
-         *
-         * @Method
-         *
+         * 
+         * @param  [rp_input]
+         * @return [new_rp_input]
+         * 
          */
-
         public function rp_sanitize_and_validate($rp_input) {
 
             $rp_new_input = array();
@@ -716,13 +660,11 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Updating the schedule according to the new interval selected by the user
-         *
-         * @Method
-         *
+         * 
+         * @param  [old_value]
+         * @param  [new_value]
          */
-
         public function rp_update_schedule($old_value, $new_value)
         {
 
@@ -741,13 +683,11 @@ if (!class_exists("Randomize_Password")) {
         }
 
         /**
-         *
          * Adding Settings link to the plugin page.
-         *
-         * @Method
-         *
+         * 
+         * @param  [links]
+         * @return [array]
          */
-
         public function rp_add_settings_link($links)
         {
 
