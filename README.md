@@ -2,7 +2,7 @@
 Contributors: usmanaliqureshi<br>
 Tags: security, password, random, wordpress, generate password, random password, generator, users, security<br>
 Requires at least: 3.0<br>
-Tested up to: 4.7.5<br>
+Tested up to: 4.8<br>
 Stable tag: 4.7.5<br>
 License: GPLv2 or later<br>
 License URI: http://www.gnu.org/licenses/gpl-2.0.html<br>
