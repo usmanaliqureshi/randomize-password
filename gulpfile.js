@@ -10,38 +10,39 @@ var notify = require('gulp-notify');
 var wpPot = require('gulp-wp-pot');
 var sort = require('gulp-sort');
 
-var projectPHPWatchFiles    = './**/*.php';
-var translatePath           = './languages/'
-var text_domain             = 'rp';
-var destFile                = 'randomize-password.pot';
-var packageName             = 'randomize-password';
-var bugReport               = 'https://github.com/InspiryThemes/permanent-password/issues';
-var lastTranslator          = 'Usman Ali Qureshi <usman@usmanaliqureshi.com>';
-var team                    = 'InspiryThemes <usman@inspirythemes.com>';
+var projectPHPWatchFiles = './**/*.php';
+var translatePath = './languages/'
+var text_domain = 'rp';
+var destFile = 'randomize-password.pot';
+var packageName = 'randomize-password';
+var bugReport = 'https://github.com/usmanaliqureshi/randomize-password/issues';
+var lastTranslator = 'Usman Ali Qureshi <usman@usmanaliqureshi.com>';
+var team = 'InspiryThemes <usman@inspirythemes.com>';
 
-gulp.task( 'translate', function () {
-    return gulp.src( projectPHPWatchFiles )
-        .pipe( sort() )
-        .pipe( wpPot( {
-            domain        : text_domain,
-            destFile      : destFile,
-            package       : packageName,
-            bugReport     : bugReport,
+gulp.task('translate', function () {
+    return gulp.src(projectPHPWatchFiles)
+        .pipe(sort())
+        .pipe(wpPot({
+            domain: text_domain,
+            destFile: destFile,
+            package: packageName,
+            bugReport: bugReport,
             lastTranslator: lastTranslator,
-            team          : team
-        } ) )
-        .pipe( gulp.dest( translatePath + destFile ) )
-        .pipe( notify( { message: 'TASK: "translate" Completed!', onLast: true } ) )
+            team: team
+        }))
+        .pipe(gulp.dest(translatePath + destFile))
+        .pipe(notify({message: 'TASK: "translate" Completed!', onLast: true}))
 
 });
 
 gulp.task('zip', ['translate'], function () {
-    return gulp.src( [
+    return gulp.src([
         // Include
         './**/*',
 
         // Exclude
         '!./prepros.cfg',
+        '!./README.md',
         '!./**/.DS_Store',
         '!./sass/**/*.scss',
         '!./sass',
@@ -52,12 +53,12 @@ gulp.task('zip', ['translate'], function () {
         '!./*.sublime-project',
         '!./*.sublime-workspace'
     ])
-        .pipe ( zip ( 'randomize-password.zip' ) )
-        .pipe ( gulp.dest ( './' ) )
-        .pipe ( notify ( {
-        message : 'TASK: Randomize Password plugin ZIP Package is ready to go.',
-        onLast : true
-    } ) );
+        .pipe(zip('randomize-password.zip'))
+        .pipe(gulp.dest('./'))
+        .pipe(notify({
+        message: 'TASK: Randomize Password plugin ZIP Package is ready to go.',
+        onLast: true
+    }));
 });
 
 /**
