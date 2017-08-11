@@ -15,8 +15,8 @@
 /**
  * Intruders aren't allowed.
  */
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -24,684 +24,651 @@ if (!defined('ABSPATH')) {
  *
  * @class
  */
-if (!class_exists("Randomize_Password")) {
+if ( ! class_exists( "Randomize_Password" ) ) {
 
-    class Randomize_Password
-    {
+	class Randomize_Password {
 
-        /**
-         * Holds the values to be used throughout the plugin
-         * 
-         * @property [private]
-         */
-        private $options;
+		/**
+		 * Holds the values to be used throughout the plugin
+		 *
+		 * @property [private]
+		 */
+		private $options;
 
-        /**
-         * You know what this method is don't you :o ?
-         *
-         * __construct()
-         */
-        public function __construct()
-        {
+		/**
+		 * You know what this method is don't you :o ?
+		 *
+		 * __construct()
+		 */
+		public function __construct() {
 
-            $this->rp_initialize();
+			$this->rp_initialize();
 
-        }
+		}
 
 
-        /**
-         * Initialization
-         *
-         * @method
-         */
-        public function rp_initialize()
-        {
+		/**
+		 * Initialization
+		 *
+		 * @method
+		 */
+		public function rp_initialize() {
 
-            /**
-             * Hooks
-             */
-            register_activation_hook(__FILE__, array($this, 'rp_activation'));
+			/**
+			 * Hooks
+			 */
+			register_activation_hook( __FILE__, array( $this, 'rp_activation' ) );
 
-            register_deactivation_hook(__FILE__, array($this, 'rp_deactivation'));
+			register_deactivation_hook( __FILE__, array( $this, 'rp_deactivation' ) );
 
-            /**
-             * Filters
-             */
-            add_filter('cron_schedules', array($this, 'rp_add_custom_intervals'));
+			/**
+			 * Filters
+			 */
+			add_filter( 'cron_schedules', array( $this, 'rp_add_custom_intervals' ) );
 
-            add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'rp_add_settings_link'));
+			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'rp_add_settings_link' ) );
 
-            /**
-             * Actions
-             */
-            add_action('rp_wp_schedule', array($this, 'rp_schedule_password'));
+			/**
+			 * Actions
+			 */
+			add_action( 'rp_wp_schedule', array( $this, 'rp_schedule_password' ) );
 
-            /**
-             * Showing Relevant Option on User Settings page.
-             */
-            add_action('show_user_profile', array($this, 'rp_user_settings'));
+			/**
+			 * Showing Relevant Option on User Settings page.
+			 */
+			add_action( 'show_user_profile', array( $this, 'rp_user_settings' ) );
 
-            add_action('edit_user_profile', array($this, 'rp_user_settings'));
+			add_action( 'edit_user_profile', array( $this, 'rp_user_settings' ) );
 
-            /**
-             * Saving the new option we just created.
-             */
-            add_action('personal_options_update', array($this, 'rp_save_user_settings'));
+			/**
+			 * Saving the new option we just created.
+			 */
+			add_action( 'personal_options_update', array( $this, 'rp_save_user_settings' ) );
 
-            add_action('edit_user_profile_update', array($this, 'rp_save_user_settings'));
+			add_action( 'edit_user_profile_update', array( $this, 'rp_save_user_settings' ) );
 
-            /**
-             *
-             * Adding the page into the Settings' Menu
-             *
-             */
-            if (is_admin()) {
+			/**
+			 *
+			 * Adding the page into the Settings' Menu
+			 *
+			 */
+			if ( is_admin() ) {
 
-                add_action('admin_menu', array($this, 'rp_plugin_page'));
+				add_action( 'admin_menu', array( $this, 'rp_plugin_page' ) );
 
-                add_action('admin_init', array($this, 'rp_settings_page_init'));
+				add_action( 'admin_init', array( $this, 'rp_settings_page_init' ) );
 
-                add_action('update_option_rp_options', array($this, 'rp_update_schedule'), 10, 2);
+				add_action( 'update_option_rp_options', array( $this, 'rp_update_schedule' ), 10, 2 );
 
-            }
+			}
 
-        }
+		}
 
-        /**
-         * Plugin Activation - This method will be executed when the plugin will be activated.
-         *
-         * @method
-         */
-        public function rp_activation()
-        {
+		/**
+		 * Plugin Activation - This method will be executed when the plugin will be activated.
+		 *
+		 * @method
+		 */
+		public function rp_activation() {
 
-            $this->options = get_option('rp_options');
+			$this->options = get_option( 'rp_options' );
 
-            $time_interval = ($this->options['time_interval'] ? $this->options['time_interval'] : 'weekly');
+			$time_interval = ( $this->options['time_interval'] ? $this->options['time_interval'] : 'weekly' );
 
-            $password_length = ($this->options['length_password'] ? $this->options['length_password'] : '8');
+			$password_length = ( $this->options['length_password'] ? $this->options['length_password'] : '8' );
 
-            if (!wp_next_scheduled('rp_schedule_password')) {
+			if ( ! wp_next_scheduled( 'rp_schedule_password' ) ) {
 
-                wp_schedule_event(time(), $time_interval, 'rp_wp_schedule');
+				wp_schedule_event( time(), $time_interval, 'rp_wp_schedule' );
 
-            }
+			}
 
-            if (!isset($this->options['time_interval'])) {
+			if ( ! isset( $this->options['time_interval'] ) ) {
 
-                $defaults = array(
+				$defaults = array(
 
-                    'time_interval' => $time_interval,
+					'time_interval'   => $time_interval,
+					'length_password' => $password_length
 
-                    'length_password' => $password_length
+				);
 
-                );
+				update_option( 'rp_options', $defaults );
 
-                update_option('rp_options', $defaults);
+			}
 
-            }
+		}
 
-        }
+		/**
+		 * Plugin Deactivation - This method will be executed when the plugin will be deactivated.
+		 *
+		 * @method
+		 */
+		public function rp_deactivation() {
 
-        /**
-         * Plugin Deactivation - This method will be executed when the plugin will be deactivated.
-         *
-         * @method
-         */
-        public function rp_deactivation()
-        {
+			wp_clear_scheduled_hook( 'rp_wp_schedule' );
 
-            wp_clear_scheduled_hook('rp_wp_schedule');
+		}
 
-        }
 
+		/**
+		 * Adding custom time intervals - This method will add new time intervals like weekly and monthly which
+		 * are not present in WordPress cron intervals by default.
+		 *
+		 * @param  $schedules
+		 *
+		 * @return $schedules
+		 */
+		public function rp_add_custom_intervals( $schedules ) {
 
-        /**
-         * Adding custom time intervals - This method will add new time intervals like weekly and monthly which
-         * are not present in WordPress cron intervals by default.
-         * 
-         * @param  $schedules
-         * @return $schedules
-         */
-        public function rp_add_custom_intervals($schedules)
-        {
+			$schedules['weekly'] = array(
 
-            $schedules['weekly'] = array(
+				'interval' => 604800,
+				'display'  => __( 'Once Weekly', 'rp' )
 
-                'interval' => 604800,
+			);
 
-                'display' => __('Once Weekly', 'rp')
+			$schedules['fortnightly'] = array(
 
-            );
+				'interval' => 1209600,
+				'display'  => __( 'Once Fortnightly', 'rp' )
 
-            $schedules['fortnightly'] = array(
+			);
 
-                'interval' => 1209600,
+			$schedules['monthly'] = array(
 
-                'display' => __('Once Fortnightly', 'rp')
+				'interval' => 2592000,
+				'display'  => __( 'Once a month', 'rp' )
 
-            );
+			);
 
-            $schedules['monthly'] = array(
+			$schedules['quaterly'] = array(
 
-                'interval' => 2592000,
+				'interval' => 7776000,
+				'display'  => __( 'Once Quaterly', 'rp' )
 
-                'display' => __('Once a month', 'rp')
+			);
 
-            );
+			return $schedules;
 
-            $schedules['quaterly'] = array(
+		}
 
-                'interval' => 7776000,
+		/**
+		 * Scheduling - This method will be added to the cron schedule hook
+		 *
+		 * @method
+		 */
+		public function rp_schedule_password() {
 
-                'display' => __('Once Quaterly', 'rp')
+			$this->rp_execute();
 
-            );
+		}
 
-            return $schedules;
+		/**
+		 * Randomize Password User Settings - This method will add Randomize Password's user related setting on the user profile page.
+		 *
+		 * @param  $user
+		 *
+		 * @return [form]
+		 */
+		public function rp_user_settings( $user ) {
 
-        }
+			if ( current_user_can( 'edit_user', $user->ID ) ) {
 
-        /**
-         * Scheduling - This method will be added to the cron schedule hook
-         *
-         * @method
-         */
-        public function rp_schedule_password()
-        {
+				?>
 
-            $this->rp_execute();
+				<h3><?php esc_html_e( 'Randomize Password', 'rp' ); ?></h3>
 
-        }
+				<table class="form-table">
 
-        /**
-         * Randomize Password User Settings - This method will add Randomize Password's user related setting on the user profile page.
-         * 
-         * @param  $user
-         * @return [form]
-         */
-        public function rp_user_settings($user)
-        {
+					<tr>
+						<th>
+							<label for="randomize_password"><?php esc_html_e( 'Randomize', 'rp' ); ?></label>
+						</th>
 
-            if (current_user_can('edit_user', $user->ID)) {
+						<td>
+							<?php $checked = get_the_author_meta( 'randomize_password', $user->ID ); ?>
+							<input type="checkbox" name="randomize_password" id="randomize_password"
+							       class="regular-text" <?php echo ( 'on' === $checked ) ? esc_attr( 'checked' ) : false; ?> />
+							<span
+								class="description"><?php esc_html_e( '&larr; Click to Activate the randomize password option', 'rp' ) ?>
+								.</span>
+						</td>
 
-                ?>
+					</tr>
 
-                <h3><?php esc_html_e('Randomize Password', 'rp'); ?></h3>
+				</table>
 
-                <table class="form-table">
+				<?php
 
-                    <tr>
-                        <th>
-                            <label for="randomize_password"><?php esc_html_e('Randomize', 'rp'); ?></label>
-                        </th>
+			}
 
-                        <td>
-                            <?php $checked = get_the_author_meta('randomize_password', $user->ID); ?>
-                            <input type="checkbox" name="randomize_password" id="randomize_password"
-                                   class="regular-text" <?php echo ('on' === $checked) ? esc_attr('checked') : false; ?> />
-                            <span class="description"><?php esc_html_e('&larr; Click to Activate the randomize password option', 'rp') ?>.</span>
-                        </td>
+		}
 
-                    </tr>
+		/**
+		 * Saving Randomize Password User Settings - This method will save the settings according to user's selection.
+		 *
+		 * @param  [user_id]
+		 */
+		public function rp_save_user_settings( $user_id ) {
 
-                </table>
+			if ( ! current_user_can( 'edit_user', $user_id ) ) {
 
-                <?php
+				return false;
 
-            }
+			}
 
-        }
+			if ( isset( $_POST['randomize_password'] ) ) {
 
-        /**
-         * Saving Randomize Password User Settings - This method will save the settings according to user's selection.
-         * 
-         * @param  [user_id]
-         */
-        public function rp_save_user_settings($user_id)
-        {
+				$rp_valid_value = "on";
 
-            if (!current_user_can('edit_user', $user_id)) {
+				$rp_user_value = sanitize_text_field( $_POST['randomize_password'] );
 
-                return false;
+				if ( $rp_user_value != $rp_valid_value ) {
 
-            }
+					wp_die( 'Invalid selection, please go back and try again.' );
 
-            if (isset($_POST['randomize_password'])) {
+				} else {
 
-                $rp_valid_value = "on";
+					update_user_meta( $user_id, 'randomize_password', $rp_user_value );
 
-                $rp_user_value = sanitize_text_field($_POST['randomize_password']);
+				}
 
-                if ($rp_user_value != $rp_valid_value) {
+			} else {
 
-                    wp_die('Invalid selection, please go back and try again.');
+				update_user_meta( $user_id, 'randomize_password', false );
 
-                } else {
+			}
 
-                    update_user_meta($user_id, 'randomize_password', $rp_user_value);
+		}
 
-                }
+		/**
+		 * Notification to the User with new generated password
+		 *
+		 * @method
+		 */
+		public function rp_execute() {
 
-            } else {
+			$this->options = get_option( 'rp_options' );
 
-                update_user_meta($user_id, 'randomize_password', false);
+			$users = get_users();
 
-            }
+			$password_length = intval( $this->options['length_password'] );
 
-        }
+			foreach ( $users as $user ) {
 
-        /**
-         * Notification to the User with new generated password
-         *
-         * @method
-         */
-        public function rp_execute()
-        {
+				$random_generated_password = wp_generate_password( $password_length, true, true );
 
-            $this->options = get_option('rp_options');
+				$email = $user->user_email;
 
-            $users = get_users();
+				$email_subject = "Randomize Pass";
 
-            $password_length = intval($this->options['length_password']);
+				$email_body = "Hi " . $user->display_name . ",<br/><br/>";
 
-            foreach ($users as $user) {
+				$email_body .= "Your password on <a href='" . get_bloginfo( 'url' ) . "' target='_blank'>" . get_bloginfo( 'name' ) . "</a> has been replaced by following randomly generated password <i><strong>" . $random_generated_password . "</strong></i><br/><br/>";
 
-                $random_generated_password = wp_generate_password($password_length, true, true);
+				$email_body .= "If needed, you can get in touch with the website administrator for more information.";
 
-                $email = $user->user_email;
+				$headers = array( "Content-Type: text/html; charset=UTF-8" );
 
-                $email_subject = "Randomize Pass";
+				$rp_settings = get_user_meta( $user->ID, 'randomize_password', true );
 
-                $email_body = "Hi " . $user->display_name . ",<br/><br/>";
+				if ( $rp_settings === 'on' ) {
 
-                $email_body .= "Your password on <a href='" . get_bloginfo('url') . "' target='_blank'>" . get_bloginfo('name') . "</a> has been replaced by following randomly generated password <i><strong>" . $random_generated_password . "</strong></i><br/><br/>";
+					$this->rp_change_password( $random_generated_password, $user->ID );
 
-                $email_body .= "If needed, you can get in touch with the website administrator for more information.";
+					wp_mail( $email, $email_subject, $email_body, $headers );
 
-                $headers = array("Content-Type: text/html; charset=UTF-8");
+				}
 
-                $rp_settings = get_user_meta($user->ID, 'randomize_password', true);
+			}
 
-                if ($rp_settings === 'on') {
+		}
 
-                    $this->rp_change_password($random_generated_password, $user->ID);
+		/**
+		 * Update the user's password in WordPress
+		 *
+		 * @param  [password]
+		 * @param  [userid]
+		 */
+		public function rp_change_password( $password, $userid ) {
 
-                    wp_mail($email, $email_subject, $email_body, $headers);
+			wp_set_password( $password, $userid );
 
-                }
+		}
 
-            }
+		/**
+		 * Adding an options page
+		 *
+		 * @method
+		 */
+		public function rp_plugin_page() {
 
-        }
+			add_options_page(
 
-        /**
-         * Update the user's password in WordPress
-         *
-         * @param  [password]
-         * @param  [userid]
-         */
-        public function rp_change_password($password, $userid)
-        {
+				'Randomize Password',
 
-            wp_set_password($password, $userid);
+				'Randomize Password',
 
-        }
+				'manage_options',
 
-        /**
-         * Adding an options page
-         *
-         * @method
-         */
-        public function rp_plugin_page()
-        {
+				'randomize_password_settings',
 
-            add_options_page(
+				array( $this, 'rp_settings_page' )
 
-                'Randomize Password',
+			);
 
-                'Randomize Password',
+		}
 
-                'manage_options',
+		/**
+		 * Render the form with the options
+		 *
+		 * @method
+		 */
+		public function rp_settings_page() {
 
-                'randomize_password_settings',
+			?>
 
-                array($this, 'rp_settings_page')
+			<div class="wrap">
 
-            );
+				<form id="rp_form" class="rp_form" method="post" action="options.php">
 
-        }
+					<?php
 
-        /**
-         * Render the form with the options
-         *
-         * @method
-         */
-        public function rp_settings_page()
-        {
+					settings_fields( 'rp_option_group' );
 
-            ?>
+					do_settings_sections( 'rp-setting-admin' );
 
-            <div class="wrap">
+					submit_button();
 
-                <form id="rp_form" class="rp_form" method="post" action="options.php">
+					?>
 
-                    <?php
+				</form>
 
-                    settings_fields('rp_option_group');
+			</div>
 
-                    do_settings_sections('rp-setting-admin');
+			<?php
 
-                    submit_button();
+		}
 
-                    ?>
+		/**
+		 * Register and add settings for Randomize Password options
+		 *
+		 * @method
+		 */
+		public function rp_settings_page_init() {
 
-                </form>
+			register_setting(
 
-            </div>
+				'rp_option_group',
 
-            <?php
+				'rp_options',
 
-        }
+				array( $this, 'rp_sanitize_and_validate' )
 
-        /**
-         * Register and add settings for Randomize Password options
-         *
-         * @method
-         */
-        public function rp_settings_page_init()
-        {
+			);
 
-            register_setting(
+			add_settings_section(
 
-                'rp_option_group',
+				'settings_randomize_password',
 
-                'rp_options',
+				__( 'Randomize Password Settings', 'rp' ),
 
-                array($this, 'rp_sanitize_and_validate')
+				array( $this, 'rp_section_information' ),
 
-            );
+				'rp-setting-admin'
 
-            add_settings_section(
+			);
 
-                'settings_randomize_password',
+			add_settings_field(
 
-                __('Randomize Password Settings', 'rp'),
+				'time_interval',
 
-                array($this, 'rp_section_information'),
+				__( 'Select Time Interval', 'rp' ),
 
-                'rp-setting-admin'
+				array( $this, 'select_time_interval' ),
 
-            );
+				'rp-setting-admin',
 
-            add_settings_field(
+				'settings_randomize_password'
 
-                'time_interval',
+			);
 
-                __('Select Time Interval', 'rp'),
+			add_settings_field(
 
-                array($this, 'select_time_interval'),
+				'length_password',
 
-                'rp-setting-admin',
+				__( 'Password Length', 'rp' ),
 
-                'settings_randomize_password'
+				array( $this, 'select_password_length' ),
 
-            );
+				'rp-setting-admin',
 
-            add_settings_field(
+				'settings_randomize_password'
 
-                'length_password',
+			);
+		}
 
-                __('Password Length', 'rp'),
+		/**
+		 * Display section information
+		 */
+		public function rp_section_information() {
 
-                array($this, 'select_password_length'),
+			?>
 
-                'rp-setting-admin',
+			<h4><?php esc_html_e( 'Select your desired settings', 'rp' ); ?></h4>
 
-                'settings_randomize_password'
+			<?php
 
-            );
-        }
+		}
 
-        /**
-         * Display section information
-         * 
-         * @return [html]
-         */
-        public function rp_section_information()
-        {
+		/**
+		 * Get the settings option array and display the drop-down options accordingly
+		 */
+		public function select_time_interval() {
 
-            ?>
+			$this->options = get_option( 'rp_options' );
 
-            <h4><?php esc_html_e('Select your desired settings', 'rp'); ?></h4>
+			?>
 
-            <?php
+			<select id="time_interval" name="rp_options[time_interval]">
 
-        }
+				<option
+					value="hourly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'hourly', false ) ) : ( '' ); ?>>
 
-        /**
-         * Get the settings option array and display the drop-down options accordingly
-         * 
-         * @return [html]
-         */
-        public function select_time_interval()
-        {
+					<?php esc_html_e( 'Hourly', 'rp' ); ?>
 
-            $this->options = get_option('rp_options');
+				</option>
 
-            ?>
+				<option
+					value="daily" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'daily', false ) ) : ( '' ); ?>>
 
-            <select id="time_interval" name="rp_options[time_interval]">
+					<?php esc_html_e( 'Daily', 'rp' ); ?>
 
-                <option
-                    value="hourly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'hourly', false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('Hourly', 'rp'); ?>
+				<option
+					value="weekly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'weekly', false ) ) : ( '' ); ?>>
 
-                </option>
+					<?php esc_html_e( 'Weekly', 'rp' ); ?>
 
-                <option
-                    value="daily" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'daily', false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('Daily', 'rp'); ?>
+				<option
+					value="fortnightly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'fortnightly', false ) ) : ( '' ); ?>>
 
-                </option>
+					<?php esc_html_e( 'Fortnightly', 'rp' ); ?>
 
-                <option
-                    value="weekly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'weekly', false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('Weekly', 'rp'); ?>
+				<option
+					value="monthly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'monthly', false ) ) : ( '' ); ?>>
 
-                </option>
+					<?php esc_html_e( 'Monthly', 'rp' ); ?>
 
-                <option
-                    value="fortnightly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'fortnightly', false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('Fortnightly', 'rp'); ?>
+				<option
+					value="quaterly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'quaterly', false ) ) : ( '' ); ?>>
 
-                </option>
+					<?php esc_html_e( 'Quaterly', 'rp' ); ?>
 
-                <option
-                    value="monthly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'monthly', false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('Monthly', 'rp'); ?>
+			</select>
 
-                </option>
+			<p class="rp-description"><?php esc_html_e( 'Choose how often you want to reset your password. If you
+                choose <strong>Weekly</strong> then your password will be reset and sent after every 7 days.', 'rp' ); ?></p>
 
-                <option
-                    value="quaterly" <?php echo isset($this->options['time_interval']) ? (selected($this->options['time_interval'], 'quaterly', false)) : (''); ?>>
+			<?php
 
-                    <?php esc_html_e('Quaterly', 'rp'); ?>
+		}
 
-                </option>
+		/**
+		 * Get the settings option array and display the drop-down options accordingly
+		 */
+		public function select_password_length() {
 
-            </select>
+			$this->options = get_option( 'rp_options' );
 
-            <p class="rp-description"><?php esc_html_e('Choose how often you want to reset your password. If you
-                choose <strong>Weekly</strong> then your password will be reset and sent after every 7 days.', 'rp'); ?></p>
+			?>
 
-            <?php
+			<select id="length_password" name="rp_options[length_password]">
 
-        }
+				<option
+					value="8" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 8, false ) ) : ( '' ); ?>>
 
-        /**
-         * Get the settings option array and display the drop-down options accordingly
-         * 
-         * @return [html]
-         */
-        public function select_password_length()
-        {
+					<?php esc_html_e( '8 Characters', 'rp' ); ?>
 
-            $this->options = get_option('rp_options');
+				</option>
 
-            ?>
+				<option
+					value="10" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 10, false ) ) : ( '' ); ?>>
 
-            <select id="length_password" name="rp_options[length_password]">
+					<?php esc_html_e( '10 Characters', 'rp' ); ?>
 
-                <option
-                    value="8" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 8, false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('8 Characters', 'rp'); ?>
+				<option
+					value="12" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 12, false ) ) : ( '' ); ?>>
 
-                </option>
+					<?php esc_html_e( '12 Characters', 'rp' ); ?>
 
-                <option
-                    value="10" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 10, false)) : (''); ?>>
+				</option>
 
-                    <?php esc_html_e('10 Characters', 'rp'); ?>
+			</select>
 
-                </option>
+			<p class="rp-description"><?php esc_html_e( 'Select the length of your password. For Example, if you choose <strong>10
+                    Characters</strong> then your password will be 10 characters long.', 'rp' ); ?></p>
 
-                <option
-                    value="12" <?php echo isset($this->options['length_password']) ? (selected($this->options['length_password'], 12, false)) : (''); ?>>
+			<?php
 
-                    <?php esc_html_e('12 Characters', 'rp'); ?>
+		}
 
-                </option>
+		/**
+		 * Sanitizing and validating the options selected/submitted by the user
+		 *
+		 * @param $rp_input
+		 * @return array
+		 */
+		public function rp_sanitize_and_validate( $rp_input ) {
 
-            </select>
+			$rp_new_input = array();
 
-            <p class="rp-description"><?php esc_html_e('Select the length of your password. For Example, if you choose <strong>10
-                    Characters</strong> then your password will be 10 characters long.', 'rp'); ?></p>
+			if ( isset( $rp_input['time_interval'] ) ) {
 
-            <?php
+				$rp_time_valid_values = array(
 
-        }
+					'hourly',
+					'daily',
+					'weekly',
+					'fortnightly',
+					'monthly',
+					'quaterly'
 
-        /**
-         * Sanitizing and validating the options selected/submitted by the user
-         * 
-         * @param  [rp_input]
-         * @return [new_rp_input]
-         * 
-         */
-        public function rp_sanitize_and_validate($rp_input) {
+				);
 
-            $rp_new_input = array();
+				if ( in_array( $rp_input['time_interval'], $rp_time_valid_values ) ) {
 
-            if (isset($rp_input['time_interval'])) {
+					$rp_new_input['time_interval'] = sanitize_text_field( $rp_input['time_interval'] );
 
-                $rp_time_valid_values = array(
+				} else {
 
-                    'hourly',
+					wp_die( "Invalid selection for Time Interval, please go back and try again." );
 
-                    'daily',
+				}
 
-                    'weekly',
+			}
 
-                    'fortnightly',
+			if ( isset( $rp_input['length_password'] ) ) {
 
-                    'monthly',
+				$rp_password_valid_length = array(
 
-                    'quaterly'
+					8,
+					10,
+					12
 
-                );
+				);
 
-                if (in_array($rp_input['time_interval'], $rp_time_valid_values)) {
+				$rp_intval_password = intval( $rp_input['length_password'] );
 
-                    $rp_new_input['time_interval'] = sanitize_text_field($rp_input['time_interval']);
+				if ( in_array( $rp_intval_password, $rp_password_valid_length ) ) {
 
-                } else {
+					$rp_new_input['length_password'] = sanitize_text_field( $rp_input['length_password'] );
 
-                    wp_die("Invalid selection for Time Interval, please go back and try again.");
+				} else {
 
-                }
+					wp_die( 'Invalid selection for Password Length, kindly go back and try again.' );
 
-            }
+				}
 
-            if (isset($rp_input['length_password'])) {
+				return $rp_new_input;
 
-                $rp_password_valid_length = array(
+			}
 
-                    8,
+		}
 
-                    10,
+		/**
+		 * Updating the schedule according to the new interval selected by the user
+		 *
+		 * @param  [old_value]
+		 * @param  [new_value]
+		 */
+		public function rp_update_schedule( $old_value, $new_value ) {
 
-                    12
+			$existing_interval = $old_value['time_interval'];
 
-                );
+			$updated_interval = $new_value['time_interval'];
 
-                $rp_intval_password = intval($rp_input['length_password']);
+			if ( $existing_interval != $updated_interval ) {
 
-                if (in_array($rp_intval_password, $rp_password_valid_length)) {
+				wp_clear_scheduled_hook( 'rp_wp_schedule' );
 
-                    $rp_new_input['length_password'] = sanitize_text_field($rp_input['length_password']);
+				wp_schedule_event( time(), $updated_interval, 'rp_wp_schedule' );
 
-                } else {
+			}
 
-                    wp_die('Invalid selection for Password Length, kindly go back and try again.');
+		}
 
-                }
+		/**
+		 * Adding Settings link to the plugin page.
+		 *
+		 * @param $links
+		 *
+		 * @return array
+		 */
+		public function rp_add_settings_link( $links ) {
 
-                return $rp_new_input;
+			$rp_settings_link = array(
 
-            }
+				'<a href="' . admin_url( 'options-general.php?page=randomize_password_settings' ) . '">Settings</a>',
 
-        }
+			);
 
-        /**
-         * Updating the schedule according to the new interval selected by the user
-         * 
-         * @param  [old_value]
-         * @param  [new_value]
-         */
-        public function rp_update_schedule($old_value, $new_value)
-        {
+			return array_merge( $links, $rp_settings_link );
 
-            $existing_interval = $old_value['time_interval'];
+		}
 
-            $updated_interval = $new_value['time_interval'];
-
-            if ($existing_interval != $updated_interval) {
-
-                wp_clear_scheduled_hook('rp_wp_schedule');
-
-                wp_schedule_event(time(), $updated_interval, 'rp_wp_schedule');
-
-            }
-
-        }
-
-        /**
-         * Adding Settings link to the plugin page.
-         * 
-         * @param  [links]
-         * @return [array]
-         */
-        public function rp_add_settings_link($links)
-        {
-
-            $rp_settings_link = array(
-
-                '<a href="' . admin_url('options-general.php?page=randomize_password_settings') . '">Settings</a>',
-
-            );
-
-            return array_merge($links, $rp_settings_link);
-
-        }
-
-    }
+	}
 
 }
 
