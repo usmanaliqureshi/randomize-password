@@ -15,7 +15,7 @@ This plugin will help you to change the password for users depending on the sche
 
 1. Option for each user on user settings page and profile page.
 
-2. Randomize Password Settings page in Dashboard > Settings.
+2. Randomize Password Settings page in Dashboard → Settings.
 
 == Changelog ==
 
