@@ -16,7 +16,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description
 
-This plugin will help you to change the password for users depending on the schedule in settings (**only set by administrators**) of the plugin. It will add a new option on the profile page of each user to activate the schedule to randomly change their password.
+This plugin will help you to change the password for users depending on the schedule in settings (**only set by administrators**) of the plugin. It will add a new option on the user's profile page of each user to activate the schedule to randomly change their password.
 
 ## Screenshots
 
