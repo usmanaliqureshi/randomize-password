@@ -6,7 +6,7 @@ Tags: security, password, random, wordpress, generate password, random password,
 
 Requires at least: 3.0
 
-Tested up to: 4.9.1
+Tested up to: 5.0
 
 Stable tag: 4.7.5
 
