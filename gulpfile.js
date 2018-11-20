@@ -35,7 +35,7 @@ gulp.task('translate', function () {
 
 });
 
-gulp.task('zip', ['translate'], function () {
+gulp.task('zip', gulp.parallel(['translate'], function () {
     return gulp.src([
         // Include
         './**/*',
@@ -43,6 +43,7 @@ gulp.task('zip', ['translate'], function () {
         // Exclude
         '!./prepros.cfg',
         '!./README.md',
+        '!./randomize-password.zip',
         '!./**/.DS_Store',
         '!./sass/**/*.scss',
         '!./sass',
@@ -59,11 +60,11 @@ gulp.task('zip', ['translate'], function () {
         message: 'TASK: Randomize Password plugin ZIP Package is ready to go.',
         onLast: true
     }));
-});
+}));
 
 /**
  * - Running All the TASKS -
  * ZIP task is depending on the translate task so no need to call the translate task as it will automatically run first before ZIP task.
  */
 
-gulp.task('default', ['zip']);
+gulp.task('default', gulp.parallel(['zip'], function() {}));
