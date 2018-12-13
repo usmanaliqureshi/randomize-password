@@ -1,5 +1,7 @@
 # Randomize Password
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/usmanaliqureshi/randomize-password.svg)](https://greenkeeper.io/)
+
 Contributors: usmanaliqureshi
 
 Tags: security, password, random, wordpress, generate password, random password, generator, users, security
