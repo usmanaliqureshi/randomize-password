@@ -75,7 +75,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			 * Showing Relevant Option on User Settings page.
 			 */
 			add_action( 'show_user_profile', array( $this, 'rp_user_settings' ) );
-
 			add_action( 'edit_user_profile', array( $this, 'rp_user_settings' ) );
 
 			/**
