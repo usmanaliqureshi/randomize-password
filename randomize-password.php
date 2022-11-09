@@ -64,7 +64,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			 * Filters
 			 */
 			add_filter( 'cron_schedules', array( $this, 'rp_add_custom_intervals' ) );
-
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'rp_add_settings_link' ) );
 
 			/**
