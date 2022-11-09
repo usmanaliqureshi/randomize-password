@@ -58,7 +58,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			 * Hooks
 			 */
 			register_activation_hook( __FILE__, array( $this, 'rp_activation' ) );
-
 			register_deactivation_hook( __FILE__, array( $this, 'rp_deactivation' ) );
 
 			/**
