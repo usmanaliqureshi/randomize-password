@@ -81,7 +81,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			 * Saving the new option we just created.
 			 */
 			add_action( 'personal_options_update', array( $this, 'rp_save_user_settings' ) );
-
 			add_action( 'edit_user_profile_update', array( $this, 'rp_save_user_settings' ) );
 
 			/**
