@@ -91,7 +91,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			if ( is_admin() ) {
 
 				add_action( 'admin_menu', array( $this, 'rp_plugin_page' ) );
-
 				add_action( 'admin_init', array( $this, 'rp_settings_page_init' ) );
 
 				add_action( 'update_option_rp_options', array( $this, 'rp_update_schedule' ), 10, 2 );
