@@ -108,7 +108,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			$this->options = get_option( 'rp_options' );
 
 			$time_interval = ( $this->options['time_interval'] ? $this->options['time_interval'] : 'weekly' );
-
 			$password_length = ( $this->options['length_password'] ? $this->options['length_password'] : '8' );
 
 			if ( ! wp_next_scheduled( 'rp_schedule_password' ) ) {
