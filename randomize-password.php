@@ -222,9 +222,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 							<?php $checked = get_the_author_meta( 'randomize_password', $user->ID ); ?>
 							<input type="checkbox" name="randomize_password" id="randomize_password"
 							       class="regular-text" <?php echo ( 'on' === $checked ) ? esc_attr( 'checked' ) : false; ?> />
-							<span
-								class="description"><?php esc_html_e( '&larr; Click to Activate the randomize password option', 'rp' ) ?>
-								.</span>
+                            <span class="description"><?php esc_html_e( '&larr; Click to Activate the randomize password option.', 'rp' ) ?></span>
 						</td>
 
 					</tr>
