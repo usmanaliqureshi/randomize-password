@@ -251,7 +251,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			if ( isset( $_POST['randomize_password'] ) ) {
 
 				$rp_valid_value = "on";
-				$rp_user_value = sanitize_text_field( $_POST['randomize_password'] );
+				$rp_user_value  = sanitize_text_field( $_POST['randomize_password'] );
 
 				if ( $rp_user_value != $rp_valid_value ) {
 
