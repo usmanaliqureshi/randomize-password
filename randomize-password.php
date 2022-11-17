@@ -278,8 +278,8 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 		 */
 		public function rp_execute() {
 
-			$this->options = get_option( 'rp_options' );
-			$users = get_users();
+			$this->options   = get_option( 'rp_options' );
+			$users           = get_users();
 			$password_length = intval( $this->options['length_password'] );
 
 			foreach ( $users as $user ) {
