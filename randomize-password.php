@@ -292,7 +292,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				$email_body = "Hi " . $user->display_name . ",<br/><br/>";
 				$email_body .= "Your password on <a href='" . get_bloginfo( 'url' ) . "' target='_blank'>" . get_bloginfo( 'name' ) . "</a> has been replaced by following randomly generated password <i><strong>" . $random_generated_password . "</strong></i><br/><br/>";
-
 				$email_body .= "If needed, you can get in touch with the website administrator for more information.";
 
 				$headers = array( "Content-Type: text/html; charset=UTF-8" );
