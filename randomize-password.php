@@ -301,7 +301,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 				if ( $rp_settings === 'on' ) {
 
 					$this->rp_change_password( $random_generated_password, $user->ID );
-
 					wp_mail( $email, $email_subject, $email_body, $headers );
 
 				}
