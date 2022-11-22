@@ -329,7 +329,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 		public function rp_plugin_page() {
 
 			add_options_page(
-
 				'Randomize Password',
 
 				'Randomize Password',
