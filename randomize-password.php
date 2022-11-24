@@ -331,7 +331,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			add_options_page(
 				'Randomize Password',
 				'Randomize Password',
-
 				'manage_options',
 
 				'randomize_password_settings',
