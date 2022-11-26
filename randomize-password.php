@@ -379,7 +379,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			register_setting(
 
 				'rp_option_group',
-
 				'rp_options',
 
 				array( $this, 'rp_sanitize_and_validate' )
