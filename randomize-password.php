@@ -334,7 +334,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 				'manage_options',
 				'randomize_password_settings',
 				array( $this, 'rp_settings_page' )
-
 			);
 
 		}
