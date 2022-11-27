@@ -387,7 +387,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			add_settings_section(
 				'settings_randomize_password',
 				__( 'Randomize Password Settings', 'rp' ),
-
 				array( $this, 'rp_section_information' ),
 
 				'rp-setting-admin'
