@@ -392,7 +392,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			);
 
 			add_settings_field(
-
 				'time_interval',
 
 				__( 'Select Time Interval', 'rp' ),
