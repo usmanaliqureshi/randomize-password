@@ -394,7 +394,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			add_settings_field(
 				'time_interval',
 				__( 'Select Time Interval', 'rp' ),
-
 				array( $this, 'select_time_interval' ),
 
 				'rp-setting-admin',
