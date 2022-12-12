@@ -397,7 +397,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 				array( $this, 'select_time_interval' ),
 				'rp-setting-admin',
 				'settings_randomize_password'
-
 			);
 
 			add_settings_field(
