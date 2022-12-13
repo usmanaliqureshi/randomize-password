@@ -400,7 +400,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			);
 
 			add_settings_field(
-
 				'length_password',
 
 				__( 'Password Length', 'rp' ),
