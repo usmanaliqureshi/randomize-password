@@ -403,7 +403,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 				'length_password',
 				__( 'Password Length', 'rp' ),
 				array( $this, 'select_password_length' ),
-
 				'rp-setting-admin',
 
 				'settings_randomize_password'
