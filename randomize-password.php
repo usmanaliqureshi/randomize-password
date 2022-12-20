@@ -528,6 +528,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 		 * Sanitizing and validating the options selected/submitted by the user
 		 *
 		 * @param $rp_input
+		 *
 		 * @return array
 		 */
 		public function rp_sanitize_and_validate( $rp_input ) {
