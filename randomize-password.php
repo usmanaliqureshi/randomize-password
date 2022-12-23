@@ -467,12 +467,11 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				</option>
 
-				<option
-					value="quaterly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'quaterly', false ) ) : ( '' ); ?>>
+                <option value="quaterly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'quaterly', false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( 'Quaterly', 'rp' ); ?>
 
-				</option>
+                </option>
 
 			</select>
 
