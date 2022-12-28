@@ -446,12 +446,11 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				</option>
 
-				<option
-					value="weekly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'weekly', false ) ) : ( '' ); ?>>
+                <option value="weekly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'weekly', false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( 'Weekly', 'rp' ); ?>
 
-				</option>
+                </option>
 
                 <option value="fortnightly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'fortnightly', false ) ) : ( '' ); ?>>
 
