@@ -439,12 +439,11 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				</option>
 
-				<option
-					value="daily" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'daily', false ) ) : ( '' ); ?>>
+                <option value="daily" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'daily', false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( 'Daily', 'rp' ); ?>
 
-				</option>
+                </option>
 
                 <option value="weekly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'weekly', false ) ) : ( '' ); ?>>
 
