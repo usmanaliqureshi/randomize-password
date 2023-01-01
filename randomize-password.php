@@ -432,12 +432,11 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 			<select id="time_interval" name="rp_options[time_interval]">
 
-				<option
-					value="hourly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'hourly', false ) ) : ( '' ); ?>>
+                <option value="hourly" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'hourly', false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( 'Hourly', 'rp' ); ?>
 
-				</option>
+                </option>
 
                 <option value="daily" <?php echo isset( $this->options['time_interval'] ) ? ( selected( $this->options['time_interval'], 'daily', false ) ) : ( '' ); ?>>
 
