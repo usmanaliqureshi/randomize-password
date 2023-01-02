@@ -415,7 +415,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 			?>
 
-			<h4><?php esc_html_e( 'Select your desired settings', 'rp' ); ?></h4>
+            <h4><?php esc_html_e( 'Select your desired settings', 'rp' ); ?></h4>
 
 			<?php
 
