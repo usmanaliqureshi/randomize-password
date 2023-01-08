@@ -211,12 +211,12 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				<h3><?php esc_html_e( 'Randomize Password', 'rp' ); ?></h3>
 
-				<table class="form-table">
+                <table class="form-table">
 
-					<tr>
-						<th>
-							<label for="randomize_password"><?php esc_html_e( 'Randomize', 'rp' ); ?></label>
-						</th>
+                    <tr>
+                        <th>
+                            <label for="randomize_password"><?php esc_html_e( 'Randomize', 'rp' ); ?></label>
+                        </th>
 
                         <td>
 							<?php $checked = get_the_author_meta( 'randomize_password', $user->ID ); ?>
@@ -224,9 +224,9 @@ if ( ! class_exists( "Randomize_Password" ) ) {
                             <span class="description"><?php esc_html_e( '&larr; Click to Activate the randomize password option.', 'rp' ) ?></span>
                         </td>
 
-					</tr>
+                    </tr>
 
-				</table>
+                </table>
 
 				<?php
 
