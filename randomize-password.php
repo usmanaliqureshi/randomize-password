@@ -164,7 +164,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				'interval' => 1209600,
 				'display'  => __( 'Once Fortnightly', 'rp' )
-
 			);
 
 			$schedules['monthly'] = array(
