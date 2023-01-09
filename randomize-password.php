@@ -175,10 +175,8 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			);
 
 			$schedules['quaterly'] = array(
-
 				'interval' => 7776000,
 				'display'  => __( 'Once Quaterly', 'rp' )
-
 			);
 
 			return $schedules;
