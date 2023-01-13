@@ -154,7 +154,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 		public function rp_add_custom_intervals( $schedules ) {
 
 			$schedules['weekly'] = array(
-
 				'interval' => 604800,
 				'display'  => __( 'Once Weekly', 'rp' )
 			);
