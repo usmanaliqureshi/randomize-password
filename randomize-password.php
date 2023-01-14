@@ -122,7 +122,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 					'time_interval'   => $time_interval,
 					'length_password' => $password_length
-
 				);
 
 				update_option( 'rp_options', $defaults );
