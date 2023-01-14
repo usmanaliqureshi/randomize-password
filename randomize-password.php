@@ -119,7 +119,6 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 			if ( ! isset( $this->options['time_interval'] ) ) {
 
 				$defaults = array(
-
 					'time_interval'   => $time_interval,
 					'length_password' => $password_length
 				);
