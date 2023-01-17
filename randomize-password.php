@@ -26,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! class_exists( "Randomize_Password" ) ) {
 
-	class Randomize_Password {
+	class Randomize_Password
+	{
 
 		/**
 		 * Holds the values to be used throughout the plugin
