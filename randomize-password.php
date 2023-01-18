@@ -200,7 +200,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 				?>
 
-				<h3><?php esc_html_e( 'Randomize Password', 'rp' ); ?></h3>
+                <h3><?php esc_html_e( 'Randomize Password', 'rp' ); ?></h3>
 
                 <table class="form-table">
 
