@@ -339,7 +339,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 			<div class="wrap">
 
-				<form id="rp_form" class="rp_form" method="post" action="options.php">
+                <form id="rp_form" class="rp_form" method="post" action="options.php">
 
 					<?php
 
