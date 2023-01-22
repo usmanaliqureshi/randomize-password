@@ -351,7 +351,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 					?>
 
-				</form>
+                </form>
 
 			</div>
 
