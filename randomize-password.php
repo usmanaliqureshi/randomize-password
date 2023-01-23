@@ -353,7 +353,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
                 </form>
 
-			</div>
+            </div>
 
 			<?php
 
