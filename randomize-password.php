@@ -458,7 +458,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
                 </option>
 
-			</select>
+            </select>
 
             <p class="rp-description"><?php esc_html_e( 'Choose how often you want to reset your password. If you
                 choose <strong>Weekly</strong> then your password will be reset and sent after every 7 days.', 'rp' ); ?></p>
