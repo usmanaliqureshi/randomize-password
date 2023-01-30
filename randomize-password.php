@@ -476,7 +476,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 			?>
 
-			<select id="length_password" name="rp_options[length_password]">
+            <select id="length_password" name="rp_options[length_password]">
 
 				<option
 					value="8" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 8, false ) ) : ( '' ); ?>>
