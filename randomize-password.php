@@ -490,8 +490,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
                 </option>
 
-				<option
-					value="12" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 12, false ) ) : ( '' ); ?>>
+                <option value="12" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 12, false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( '12 Characters', 'rp' ); ?>
 
