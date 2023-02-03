@@ -494,7 +494,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
 					<?php esc_html_e( '12 Characters', 'rp' ); ?>
 
-				</option>
+                </option>
 
 			</select>
 
