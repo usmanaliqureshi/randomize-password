@@ -484,8 +484,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
                 </option>
 
-				<option
-					value="10" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 10, false ) ) : ( '' ); ?>>
+                <option value="10" <?php echo isset( $this->options['length_password'] ) ? ( selected( $this->options['length_password'], 10, false ) ) : ( '' ); ?>>
 
 					<?php esc_html_e( '10 Characters', 'rp' ); ?>
 
