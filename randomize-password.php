@@ -498,7 +498,7 @@ if ( ! class_exists( "Randomize_Password" ) ) {
 
             </select>
 
-			<p class="rp-description"><?php esc_html_e( 'Select the length of your password. For Example, if you choose <strong>10
+            <p class="rp-description"><?php esc_html_e( 'Select the length of your password. For Example, if you choose <strong>10
                     Characters</strong> then your password will be 10 characters long.', 'rp' ); ?></p>
 
 			<?php
