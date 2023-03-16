@@ -2,7 +2,6 @@
 
 Contributors: usmanaliqureshi
 Tags: security, password, random, wordpress, generate password, random password, generator, users, security
-
 Requires at least: 3.0
 
 Tested up to: 5.2
