@@ -4,7 +4,6 @@ Contributors: usmanaliqureshi
 Tags: security, password, random, wordpress, generate password, random password, generator, users, security
 Requires at least: 3.0
 Tested up to: 5.2
-
 Stable tag: 4.7.5
 
 License: GPLv2 or later
